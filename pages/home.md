@@ -16,3 +16,5 @@ Ask us about all things wine. Not fortified wine though. While it is awesome, bu
 You might be interested in our sister site, [Wine sellers of Galway](https://happy-mayer-d00b35.netlify.app/). Its cold there though, so mostly that is just them complaining about not being able to grow grapes.
 
 We also sell beer but not really our thing.
+
+Maybe you would like to chat?

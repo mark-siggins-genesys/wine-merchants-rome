@@ -24,6 +24,29 @@
     <!--Launch Header Embed Code: REPLACE LINE 39 WITH THE INSTALL CODE FROM YOUR OWN DEVELOPMENT ENVIRONMENT-->
     <script src="//assets.adobedtm.com/645cdc4519e1/f7ca60ac2e35/launch-f68c89cd8cc6-development.min.js" async></script>
     <!--/Launch Header Embed Code-->
+    <!--Grab the widgets we need -->
+    <script src="https://apps.mypurecloud.com/widgets/9.0/cxbus.min.js" onload="javascript:CXBus.configure({debug:false,pluginsPath:'https://apps.mypurecloud.com/widgets/9.0/plugins/'}); CXBus.loadFile('path/to/widgets.config.js').done(function(){CXBus.loadPlugin('widgets-core')});"></script>
+    <script>
+    window._genesys = {
+      widgets: {
+        webchat: {
+          transport: {
+            type: 'purecloud-v2-sockets',
+            dataURL: 'https://api.inintca.com',
+            deploymentKey : '5d0f39f0-5f81-4051-be70-837bc6ff8636',
+            orgGuid : '3d943ccc-9000-47c2-82e3-0044a94c11de',
+            interactionData: {
+              routing: {
+                targetType: 'QUEUE',
+                targetAddress: 'SalesAndSupport',
+                priority: 2
+              }
+            }
+          }
+        }
+      }
+    };
+    </script>
     <script>
       (function(a,t,c,l,o,u,d){a['_genesysJourneySdk']=o;a[o]=a[o]||function(){
       (a[o].q=a[o].q||[]).push(arguments)},a[o].l=1*new Date();u=t.createElement(c),
