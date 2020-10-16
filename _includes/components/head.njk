@@ -51,19 +51,22 @@
             }
           }
         };
+        let customPlugin;
 
-        const customPlugin = CXBus.registerPlugin('Custom');
+        window.setupWidgetListeners = function() {
+           customPlugin = CXBus.registerPlugin('Custom');
 
-        customPlugin.subscribe('WebChatService.started', function (e) {
-          console.log('Chat started', e);
-        });
+          customPlugin.subscribe('WebChatService.started', function (e) {
+            console.log('Chat started', e);
+          });
 
-        customPlugin.subscribe('WebChatService.ended', function (e) {
-          console.log('Chat ended', e);
-        });
+          customPlugin.subscribe('WebChatService.ended', function (e) {
+            console.log('Chat ended', e);
+          });
+        };
     </script>
 
-    <script src="https://apps.mypurecloud.com/widgets/9.0/cxbus.min.js" onload="javascript:CXBus.configure({debug:false,pluginsPath:'https://apps.mypurecloud.com/widgets/9.0/plugins/'}); CXBus.loadPlugin('widgets-core');"></script>
+    <script src="https://apps.mypurecloud.com/widgets/9.0/cxbus.min.js" onload="javascript:CXBus.configure({debug:false,pluginsPath:'https://apps.mypurecloud.com/widgets/9.0/plugins/'}); CXBus.loadPlugin('widgets-core'); window.setupWidgetListeners();"></script>
 
 
     <script>
