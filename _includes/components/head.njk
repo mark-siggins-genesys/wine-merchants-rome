@@ -76,9 +76,10 @@
             evt.conversationId = data.conversationId;
           }
           if (window.s) {
-            //Look at setting it if its not set
+            s.eVar9='webchat';
             s.eVar10=`${evt.actionState}`;
             s.eVar11=`${evt.conversationId}`;
+            // s.eVarX = "D=mid"; ?
             s.t();
             console.log(`Marketing cloud visitor id: ${s.marketingCloudVisitorID}`);
           } else {
@@ -86,7 +87,17 @@
           }
         });
       });
-});
+      ac('on', 'contentoffer:all', (evt) => {
+        if (window.s) {
+          s.eVar9='contentoffer';
+          s.eVar10=`${evt.actionState}`;
+          // s.eVarX = "D=mid"; ?
+          s.t();
+          console.log(`Marketing cloud visitor id: ${s.marketingCloudVisitorID}`);
+        } else {
+          console.log('no analytics found')
+        }
+      });
     </script>
   {% set css %}
     {% include "assets/css/inline.css" %}
