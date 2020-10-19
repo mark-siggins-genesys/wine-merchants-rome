@@ -70,6 +70,23 @@
       })(window, document, 'script', 'https://apps.inintca.com/journey/sdk/js/web/v1/ac.js', 'ac');
       ac('init', '3d943ccc-9000-47c2-82e3-0044a94c11de', { environment: 'test' });
       ac('pageview');
+      ac('on', 'webchat:all', (evt) => {
+        _genesys.widgets.bus.command('WebChatService.getSessionData').then((data) => {
+          if (data.conversationId) {
+            evt.conversationId = data.conversationId;
+          }
+          if (window.s) {
+            //Look at setting it if its not set
+            s.eVar10=`${evt.actionState}`;
+            s.eVar11=`${evt.conversationId}`;
+            s.t();
+            console.log(`Marketing cloud visitor id: ${s.marketingCloudVisitorID}`);
+          } else {
+            console.log('no analytics found')
+          }
+        });
+      });
+});
     </script>
   {% set css %}
     {% include "assets/css/inline.css" %}
