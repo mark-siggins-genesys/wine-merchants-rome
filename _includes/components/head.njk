@@ -82,7 +82,7 @@
             // s.eVarX = "D=mid"; ?
             
             if (data.conversationId) {
-              s.transactionId = `${data.conversationId}; // conversationId not available before chat is actually started (agent connected)
+              s.transactionId = `${data.conversationId}`; // conversationId not available before chat is actually started (agent connected)
               s.eVar11 = `${data.conversationId}`;
             }
             
