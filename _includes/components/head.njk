@@ -70,16 +70,42 @@
       })(window, document, 'script', 'https://apps.inintca.com/journey/sdk/js/web/v1/ac.js', 'ac');
       ac('init', '3d943ccc-9000-47c2-82e3-0044a94c11de', { environment: 'test' });
       ac('pageview');
+
       ac('on', 'webchat:all', (evt) => {
         _genesys.widgets.bus.command('WebChatService.getSessionData').then((data) => {
-          if (data.conversationId) {
-            evt.conversationId = data.conversationId;
-          }
+          console.log('session data:', {data});
+          console.log('webchat event:', {evt});
+
           if (window.s) {
-            s.eVar9='webchat';
-            s.eVar10=`${evt.actionState}`;
-            s.eVar11=`${evt.conversationId}`;
+            s.eVar9 = 'webchat';
+            s.eVar10 = `${evt.actionState}`;
             // s.eVarX = "D=mid"; ?
+            
+            if (data.conversationId) {
+              s.transactionId = `${data.conversationId}; // conversationId not available before chat is actually started (agent connected)
+              s.eVar11 = `${data.conversationId}`;
+            }
+            
+            switch (evt.actionState) {
+              case 'offered':
+                s.events = 'event10';
+                break;
+              case 'accepted':
+                s.events = 'event11';
+                break;
+              case 'rejected':
+                s.events = 'event12';
+                break;
+              case 'started':
+                s.events = 'event13';
+                break;
+              case 'ended':
+                s.events = 'event14';
+                break;
+              default:
+                console.log(`custom event for action state '${evt.actionState}' is not yet set up in reporting suite `);
+            }
+            
             s.t();
             console.log(`Marketing cloud visitor id: ${s.marketingCloudVisitorID}`);
           } else {
@@ -87,6 +113,7 @@
           }
         });
       });
+
       ac('on', 'contentoffer:all', (evt) => {
         if (window.s) {
           s.eVar9='contentoffer';
