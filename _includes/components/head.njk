@@ -86,25 +86,31 @@
               s.eVar11 = `${data.conversationId}`;
             }
             
+            // 1st way: record different event for each action state
+            let adobeEventForActionMediaType;
             switch (evt.actionState) {
               case 'offered':
-                s.events = 'event10';
+                adobeEventForActionType = 'event10';
                 break;
               case 'accepted':
-                s.events = 'event11';
+                adobeEventForActionType = 'event11';
                 break;
               case 'rejected':
-                s.events = 'event12';
+                adobeEventForActionType = 'event12';
                 break;
               case 'started':
-                s.events = 'event13';
+                adobeEventForActionType = 'event13';
                 break;
               case 'ended':
-                s.events = 'event14';
+                adobeEventForActionType = 'event14';
                 break;
               default:
-                console.log(`custom event for action state '${evt.actionState}' is not yet set up in reporting suite `);
+                console.log(`specific custom event to map action state '${evt.actionState}' is not set up in reporting suite (*1)`);
             }
+            
+            // 2nd way: keep count of action event and correlate with action state eVar10
+            const webActionEventCounter = 'event20';
+            s.events = `${adobeEventForActionMediaType},${webActionEventCounter}`;
             
             s.t();
             console.log(`Marketing cloud visitor id: ${s.marketingCloudVisitorID}`);
