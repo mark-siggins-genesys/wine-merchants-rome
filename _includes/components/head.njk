@@ -87,22 +87,22 @@
             }
             
             // 1st way: record different event for each action state
-            let adobeEventForActionMediaType;
+            let adobeEventForActionState;
             switch (evt.actionState) {
               case 'offered':
-                adobeEventForActionType = 'event10';
+                adobeEventForActionState = 'event10';
                 break;
               case 'accepted':
-                adobeEventForActionType = 'event11';
+                adobeEventForActionState = 'event11';
                 break;
               case 'rejected':
-                adobeEventForActionType = 'event12';
+                adobeEventForActionState = 'event12';
                 break;
               case 'started':
-                adobeEventForActionType = 'event13';
+                adobeEventForActionState = 'event13';
                 break;
               case 'completed':
-                adobeEventForActionType = 'event14';
+                adobeEventForActionState = 'event14';
                 break;
               default:
                 console.log(`specific custom event to map action state '${evt.actionState}' is not set up in reporting suite (*1)`);
@@ -110,7 +110,7 @@
             
             // 2nd way: keep count of action event and correlate with action state eVar10
             const webActionEventCounter = 'event20';
-            s.events = `${adobeEventForActionMediaType},${webActionEventCounter}`;
+            s.events = `${adobeEventForActionState},${webActionEventCounter}`;
             
             s.t();
             console.log(`Marketing cloud visitor id: ${s.marketingCloudVisitorID}`);
