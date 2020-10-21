@@ -77,10 +77,6 @@
           console.log('webchat event:', {evt});
 
           if (window.s) {
-            s.eVar9 = 'webchat';
-            s.eVar10 = `${evt.actionState}`;
-            // s.eVarX = "D=mid"; ?
-            
             if (data.conversationId) {
               evt.conversationId = data.conversationId;
               s.transactionId = data.conversationId; // conversationId not available before chat is actually started
@@ -88,8 +84,8 @@
             }
             
             const webActionEventCounter = 'event20';
-            const webActionEventCounterSerialized = `event21:${evt.actionId}-${evt.actionState}`;
-            s.events = `${webActionEventCounter},${webActionEventCounterSerialized}`;
+            
+            s.events = webActionEventCounter;
             
             for ( const prop in evt ) {
               s.contextData[prop] = evt[prop];
@@ -103,7 +99,7 @@
         });
       });
 
-      ac('on', 'contentoffer:all', (evt) => {
+      /* ac('on', 'contentoffer:all', (evt) => {
         if (window.s) {
           s.eVar9='contentoffer';
           s.eVar10=`${evt.actionState}`;
@@ -113,7 +109,7 @@
         } else {
           console.log('no analytics found')
         }
-      });
+      }); */
     </script>
   {% set css %}
     {% include "assets/css/inline.css" %}
