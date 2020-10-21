@@ -110,7 +110,8 @@
             
             // 2nd way: keep count of action event and correlate with action state eVar10
             const webActionEventCounter = 'event20';
-            s.events = `${adobeEventForActionState},${webActionEventCounter}`;
+            const webActionEventCounterSerialized = `event21:${evt.actionId}`;
+            s.events = `${adobeEventForActionState},${webActionEventCounter},${webActionEventCounterSerialized}`;
             
             s.t();
             console.log(`Marketing cloud visitor id: ${s.marketingCloudVisitorID}`);
