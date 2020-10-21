@@ -70,34 +70,40 @@
       })(window, document, 'script', 'https://apps.inintca.com/journey/sdk/js/web/v1/ac.js', 'ac');
       ac('init', '3d943ccc-9000-47c2-82e3-0044a94c11de', { environment: 'test' });
       ac('pageview');
+      
+      if (window.s) {
+        s.t();
+        console.log('Adobe page view call');
+        console.log('pageUrl:', s.pageUrl);
+        console.log(`Marketing cloud visitor id: ${s.marketingCloudVisitorID}`); // takes time to be set after t() call so can be undefined here, though always set as 'mid' query param in tracking request
+        
+        ac('on', 'webchat:all', (evt) => {
+          _genesys.widgets.bus.command('WebChatService.getSessionData').then((data) => {
+            console.log('session data:', {data});
+            console.log('webchat event:', {evt});
 
-      ac('on', 'webchat:all', (evt) => {
-        _genesys.widgets.bus.command('WebChatService.getSessionData').then((data) => {
-          console.log('session data:', {data});
-          console.log('webchat event:', {evt});
-
-          if (window.s) {
             if (data.conversationId) {
               evt.conversationId = data.conversationId;
-              s.transactionId = data.conversationId; // conversationId not available before chat is actually started
+              s.transactionID = data.conversationId; // conversationId not available before chat is actually started
               s.eVar11 = data.conversationId;
             }
-            
+
             const webActionEventCounter = 'event20';
-            
+
             s.events = webActionEventCounter;
-            
+
             for ( const prop in evt ) {
               s.contextData[prop] = evt[prop];
             }
-            
+
             s.t();
             console.log(`Marketing cloud visitor id: ${s.marketingCloudVisitorID}`);
-          } else {
-            console.log('no analytics found')
-          }
+          });
         });
-      });
+      } else {
+        console.log('no analytics found')
+      }
+      
 
       /* ac('on', 'contentoffer:all', (evt) => {
         if (window.s) {
