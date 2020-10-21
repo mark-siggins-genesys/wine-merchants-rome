@@ -89,7 +89,7 @@
             
             const webActionEventCounter = 'event20';
             const webActionEventCounterSerialized = `event21:${evt.actionId}-${evt.actionState}`;
-            s.events = `${adobeEventForActionState},${webActionEventCounter},${webActionEventCounterSerialized}`;
+            s.events = `${webActionEventCounter},${webActionEventCounterSerialized}`;
             
             s.contextData.actionMediaType = evt.actionMediaType;
             s.contextData.actionState = evt.actionState;
