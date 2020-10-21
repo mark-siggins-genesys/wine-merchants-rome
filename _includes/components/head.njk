@@ -91,10 +91,9 @@
             const webActionEventCounterSerialized = `event21:${evt.actionId}-${evt.actionState}`;
             s.events = `${webActionEventCounter},${webActionEventCounterSerialized}`;
             
-            s.contextData.actionMediaType = evt.actionMediaType;
-            s.contextData.actionState = evt.actionState;
-            
-            s.contextData.gpe_web_action_event = evt;
+            for ( const prop in evt ) {
+              s.contextData[prop] = evt[prop];
+            }
             
             s.t();
             console.log(`Marketing cloud visitor id: ${s.marketingCloudVisitorID}`);
