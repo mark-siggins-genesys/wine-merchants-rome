@@ -110,7 +110,7 @@
             
             // 2nd way: keep count of action event and correlate with action state eVar10
             const webActionEventCounter = 'event20';
-            const webActionEventCounterSerialized = `event21:${evt.actionId}`;
+            const webActionEventCounterSerialized = `event21:${evt.actionId}-${evt.actionState}`;
             s.events = `${adobeEventForActionState},${webActionEventCounter},${webActionEventCounterSerialized}`;
             
             s.t();
