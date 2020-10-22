@@ -70,7 +70,7 @@
       })(window, document, 'script', 'https://apps.inintca.com/journey/sdk/js/web/v1/ac.js', 'ac');
       ac('init', '3d943ccc-9000-47c2-82e3-0044a94c11de', { environment: 'test' });
       ac('pageview');
-      
+
       ac('on', 'webchat:all', (evt) => {
         _genesys.widgets.bus.command('WebChatService.getSessionData').then((data) => {
           console.log('session data:', {data});
@@ -81,15 +81,16 @@
               s.transactionId = data.conversationId; // conversationId not available before chat is actually started
               s.eVar11 = data.conversationId;
             }
-            
+
             const webActionEventCounter = 'event20';
-            
+
             s.events = webActionEventCounter;
-            
+            _genesys.widgets.webchat.userData.mcid = s.marketingCloudVisitorID;
+
             for ( const prop in evt ) {
               s.contextData[prop] = evt[prop];
             }
-            
+
             s.t(); // this is pageview call so if org has this call set up to happen for every page in Launch, then this will increment pageview again for same page. use s.tl() here instead? We don't want to increment page views for every webchat state change
             console.log(`Marketing cloud visitor id: ${s.marketingCloudVisitorID}`);
           } else {
@@ -97,7 +98,7 @@
           }
         });
       });
-      
+
       /* ac('on', 'contentoffer:all', (evt) => {
         if (window.s) {
           s.eVar9='contentoffer';
