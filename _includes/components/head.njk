@@ -48,7 +48,7 @@
       let customPlugin;
 
       window.setupWidgetListeners = function() {
-          customPlugin = CXBus.registerPlugin('Custom');
+        customPlugin = CXBus.registerPlugin('Custom');
 
         customPlugin.subscribe('WebChatService.started', function (e) {
           console.log('Chat started', e);
@@ -57,7 +57,6 @@
         customPlugin.subscribe('WebChatService.ended', function (e) {
           console.log('Chat ended', e);
         });
-
       };
     </script>
 
@@ -87,6 +86,7 @@
             s.events = webActionEventCounter;
 
             // updateUserData with MCID
+            // method found via: https://all.docs.genesys.com/WID/Current/SDK/WebChatService-combined#updateUserData
             customPlugin.command('WebChatService.updateUserData', { window._genesys.widgets.webchat.userData.mcid: s.marketingCloudVisitorID }).done(function(e) {
               console.log('this is how we do it');
             }).fail(function(e) {
