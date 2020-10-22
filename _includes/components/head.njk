@@ -82,15 +82,17 @@
               s.eVar11 = data.conversationId;
             }
             
-            const webActionEventCounter = 'event20';
+            const webActionEvent = 'event20';
             
-            s.events = webActionEventCounter;
+            s.events = webActionEvent;
+            s.linkTrackVars = 'events';
+            s.linkTrackEvents = webActionEvent;
             
             for ( const prop in evt ) {
               s.contextData[prop] = evt[prop];
             }
             
-            s.t(); // this is pageview call so if org has this call set up to happen for every page in Launch, then this will increment pageview again for same page. use s.tl() here instead? We don't want to increment page views for every webchat state change
+            s.tl(true, 'o', 'webchatInteraction');
             console.log(`Marketing cloud visitor id: ${s.marketingCloudVisitorID}`);
           } else {
             console.log('no analytics found')
