@@ -6,19 +6,19 @@
   <script async src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
   <!--Data Layer to enable rich data collection and targeting-->
     <script>
-    var digitalData = {
+      var digitalData = {
         "page": {
-            "pageInfo" : {
-                "pageName": document.title
-                }
-            }
-    };
+          "pageInfo" : {
+            "pageName": document.title
+          }
+        }
+      };
     </script>
     <!--/Data Layer-->
     <!--/jQuery-->
     <!--prehiding snippet for Adobe Target with asynchronous Launch deployment-->
     <script>
-        (function(g,b,d,f){(function(a,c,d){if(a){var e=b.createElement("style");e.id=c;e.innerHTML=d;a.appendChild(e)}})(b.getElementsByTagName("head")[0],"at-body-style",d);setTimeout(function(){var a=b.getElementsByTagName("head")[0];if(a){var c=b.getElementById("at-body-style");c&&a.removeChild(c)}},f)})(window,document,"body {opacity: 0 !important}",3E3);
+      (function(g,b,d,f){(function(a,c,d){if(a){var e=b.createElement("style");e.id=c;e.innerHTML=d;a.appendChild(e)}})(b.getElementsByTagName("head")[0],"at-body-style",d);setTimeout(function(){var a=b.getElementsByTagName("head")[0];if(a){var c=b.getElementById("at-body-style");c&&a.removeChild(c)}},f)})(window,document,"body {opacity: 0 !important}",3E3);
     </script>
     <!--/prehiding snippet for Adobe Target with asynchronous Launch deployment-->
     <!--Launch Header Embed Code: PROD-->
@@ -26,38 +26,39 @@
     <!--/Launch Header Embed Code-->
     <!--Grab the widgets we need -->
     <script type="text/javascript">
-        window._genesys = {
-          widgets: {
-            webchat: {
-              transport: {
-                type: 'purecloud-v2-sockets',
-                dataURL: 'https://api.inintca.com',
-                deploymentKey : '5d0f39f0-5f81-4051-be70-837bc6ff8636',
-                orgGuid : '3d943ccc-9000-47c2-82e3-0044a94c11de',
-                interactionData: {
-                  routing: {
-                    targetType: 'QUEUE',
-                    targetAddress: 'SalesAndSupport',
-                    priority: 2
-                  }
+      window._genesys = {
+        widgets: {
+          webchat: {
+            transport: {
+              type: 'purecloud-v2-sockets',
+              dataURL: 'https://api.inintca.com',
+              deploymentKey : '5d0f39f0-5f81-4051-be70-837bc6ff8636',
+              orgGuid : '3d943ccc-9000-47c2-82e3-0044a94c11de',
+              interactionData: {
+                routing: {
+                  targetType: 'QUEUE',
+                  targetAddress: 'SalesAndSupport',
+                  priority: 2
                 }
               }
             }
           }
-        };
-        let customPlugin;
+        }
+      };
+      let customPlugin;
 
-        window.setupWidgetListeners = function() {
-           customPlugin = CXBus.registerPlugin('Custom');
+      window.setupWidgetListeners = function() {
+          customPlugin = CXBus.registerPlugin('Custom');
 
-          customPlugin.subscribe('WebChatService.started', function (e) {
-            console.log('Chat started', e);
-          });
+        customPlugin.subscribe('WebChatService.started', function (e) {
+          console.log('Chat started', e);
+        });
 
-          customPlugin.subscribe('WebChatService.ended', function (e) {
-            console.log('Chat ended', e);
-          });
-        };
+        customPlugin.subscribe('WebChatService.ended', function (e) {
+          console.log('Chat ended', e);
+        });
+
+      };
     </script>
 
     <script src="https://apps.mypurecloud.com/widgets/9.0/cxbus.min.js" onload="javascript:CXBus.configure({debug:false,pluginsPath:'https://apps.mypurecloud.com/widgets/9.0/plugins/'}); CXBus.loadPlugin('widgets-core'); window.setupWidgetListeners();"></script>
@@ -72,8 +73,8 @@
 
       ac('on', 'webchat:all', (evt) => {
         _genesys.widgets.bus.command('WebChatService.getSessionData').then((data) => {
-          console.log('session data:', {data});
-          console.log('webchat event:', {evt});
+          console.log('session data:', { data });
+          console.log('webchat event:', { evt });
           if (window.s) {
             if (data.conversationId) {
               evt.conversationId = data.conversationId;
@@ -85,14 +86,21 @@
 
             s.events = webActionEventCounter;
 
-            for ( const prop in evt ) {
+            // updateUserData with MCID
+            customPlugin.command('WebChatService.updateUserData', { window._genesys.widgets.webchat.userData.mcid: s.marketingCloudVisitorID }).done(function(e) {
+              console.log('this is how we do it');
+            }).fail(function(e) {
+              console.log('actually, this is not how we do it');
+            });
+
+            for (const prop in evt) {
               s.contextData[prop] = evt[prop];
             }
 
             s.t(); // this is pageview call so if org has this call set up to happen for every page in Launch, then this will increment pageview again for same page. use s.tl() here instead? We don't want to increment page views for every webchat state change
             console.log(`Marketing cloud visitor id: ${s.marketingCloudVisitorID}`);
           } else {
-            console.log('no analytics found')
+            console.log('no analytics found');
           }
         });
       });
