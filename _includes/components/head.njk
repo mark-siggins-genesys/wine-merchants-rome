@@ -92,7 +92,7 @@
             s.events = webActionEvent;
             
             // Need to specify exactly what to record with s.tl() call (s.t() pageview track call records all set eVars, events, and contextData).
-            s.linkTrackVars = 'eVar11,events,contextData.actionId,contextData.actionMediaType,contextData.actionState, contextData.sessionId';
+            s.linkTrackVars = 'eVar11,events,contextData.actionId,contextData.actionMediaType,contextData.actionState,contextData.sessionId';
             s.linkTrackEvents = webActionEvent;
             
             s.tl(true, 'o', 'webchatInteraction');
