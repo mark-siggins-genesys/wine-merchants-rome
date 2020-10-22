@@ -103,17 +103,25 @@
         });
       });
       
-      /* ac('on', 'contentoffer:all', (evt) => {
+      ac('on', 'contentoffer:all', (evt) => {
         if (window.s) {
-          s.eVar9='contentoffer';
-          s.eVar10=`${evt.actionState}`;
-          // s.eVarX = "D=mid"; ?
-          s.t();
+          const webActionEvent = 'event22';
+
+          for ( const prop in evt ) {
+              s.contextData[prop] = evt[prop];
+            }
+            
+          s.events = webActionEvent;
+
+          s.linkTrackVars = 'eVar12,events,contextData.actionId,contextData.actionMediaType,contextData.actionState,contextData.sessionId';
+          s.linkTrackEvents = webActionEvent;
+
+          s.tl(true, 'o', 'ContentOfferInteraction');
           console.log(`Marketing cloud visitor id: ${s.marketingCloudVisitorID}`);
         } else {
           console.log('no analytics found')
         }
-      }); */
+      });
     </script>
   {% set css %}
     {% include "assets/css/inline.css" %}
