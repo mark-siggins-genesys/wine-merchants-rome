@@ -57,6 +57,11 @@
         customPlugin.subscribe('WebChatService.ended', function (e) {
           console.log('Chat ended', e);
         });
+
+        // I orignally put the updateUserData() method here, however this area is more for setup of the widgets; so I opted to
+        // place the updateUserData() method down below when we track all states of the webchat. [Lines 93 - 97]
+        // As well, a MCID is only declared after we start tracking when the Adobe 's' varibale is intialised in our browsers window
+        // thus making me thinkto put it down below rather than here.
       };
     </script>
 
