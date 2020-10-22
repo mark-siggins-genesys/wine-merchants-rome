@@ -75,6 +75,7 @@
         _genesys.widgets.bus.command('WebChatService.getSessionData').then((data) => {
           console.log('session data:', {data});
           console.log('webchat event:', {evt});
+
           if (window.s) {
             if (data.conversationId) {
               evt.conversationId = data.conversationId;
@@ -84,13 +85,15 @@
             
             const webActionEvent = 'event20';
             
-            s.events = webActionEvent;
-            s.linkTrackVars = 'events';
-            s.linkTrackEvents = webActionEvent;
-            
             for ( const prop in evt ) {
               s.contextData[prop] = evt[prop];
             }
+
+            s.events = webActionEvent;
+            
+            // Need to specify exactly what to record with s.tl() call (s.t() pageview track call records all set eVars, events, and contextData).
+            s.linkTrackVars = 'eVar11,events,contextData.actionId,contextData.actionMediaType,contextData.actionState, contextData.sessionId';
+            s.linkTrackEvents = webActionEvent;
             
             s.tl(true, 'o', 'webchatInteraction');
             console.log(`Marketing cloud visitor id: ${s.marketingCloudVisitorID}`);
