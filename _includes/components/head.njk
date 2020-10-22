@@ -85,7 +85,7 @@
             const webActionEventCounter = 'event20';
 
             s.events = webActionEventCounter;
-            _genesys.widgets.webchat.userData.mcid = s.marketingCloudVisitorID;
+            _genesys.widgets.webchat = { userData: { mcid: s.marketingCloudVisitorID } }
 
             for ( const prop in evt ) {
               s.contextData[prop] = evt[prop];
