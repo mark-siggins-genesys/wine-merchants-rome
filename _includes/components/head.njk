@@ -5,123 +5,123 @@
   <title>{{ renderData.title or title or metadata.title }}</title>
   <script async src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
   <!--Data Layer to enable rich data collection and targeting-->
-    <script>
-      var digitalData = {
-        "page": {
-          "pageInfo" : {
-            "pageName": document.title
-          }
+  <script>
+    var digitalData = {
+      "page": {
+        "pageInfo" : {
+          "pageName": document.title
         }
-      };
-    </script>
-    <!--/Data Layer-->
-    <!--/jQuery-->
-    <!--prehiding snippet for Adobe Target with asynchronous Launch deployment-->
-    <script>
-      (function(g,b,d,f){(function(a,c,d){if(a){var e=b.createElement("style");e.id=c;e.innerHTML=d;a.appendChild(e)}})(b.getElementsByTagName("head")[0],"at-body-style",d);setTimeout(function(){var a=b.getElementsByTagName("head")[0];if(a){var c=b.getElementById("at-body-style");c&&a.removeChild(c)}},f)})(window,document,"body {opacity: 0 !important}",3E3);
-    </script>
-    <!--/prehiding snippet for Adobe Target with asynchronous Launch deployment-->
-    <!--Launch Header Embed Code: PROD-->
-    <script src="//assets.adobedtm.com/645cdc4519e1/f7ca60ac2e35/launch-aa24954aa620.min.js" async></script>
-    <!--/Launch Header Embed Code-->
-    <!--Grab the widgets we need -->
-    <script type="text/javascript">
-      window._genesys = {
-        widgets: {
-          webchat: {
-            transport: {
-              type: 'purecloud-v2-sockets',
-              dataURL: 'https://api.inintca.com',
-              deploymentKey : '5d0f39f0-5f81-4051-be70-837bc6ff8636',
-              orgGuid : '3d943ccc-9000-47c2-82e3-0044a94c11de',
-              interactionData: {
-                routing: {
-                  targetType: 'QUEUE',
-                  targetAddress: 'SalesAndSupport',
-                  priority: 2
-                }
+      }
+    };
+  </script>
+  <!--/Data Layer-->
+  <!--/jQuery-->
+  <!--prehiding snippet for Adobe Target with asynchronous Launch deployment-->
+  <script>
+    (function(g,b,d,f){(function(a,c,d){if(a){var e=b.createElement("style");e.id=c;e.innerHTML=d;a.appendChild(e)}})(b.getElementsByTagName("head")[0],"at-body-style",d);setTimeout(function(){var a=b.getElementsByTagName("head")[0];if(a){var c=b.getElementById("at-body-style");c&&a.removeChild(c)}},f)})(window,document,"body {opacity: 0 !important}",3E3);
+  </script>
+  <!--/prehiding snippet for Adobe Target with asynchronous Launch deployment-->
+  <!--Launch Header Embed Code: PROD-->
+  <script src="//assets.adobedtm.com/645cdc4519e1/f7ca60ac2e35/launch-aa24954aa620.min.js" async></script>
+  <!--/Launch Header Embed Code-->
+  <!--Grab the widgets we need -->
+  <script type="text/javascript">
+    window._genesys = {
+      widgets: {
+        webchat: {
+          transport: {
+            type: 'purecloud-v2-sockets',
+            dataURL: 'https://api.inintca.com',
+            deploymentKey : '5d0f39f0-5f81-4051-be70-837bc6ff8636',
+            orgGuid : '3d943ccc-9000-47c2-82e3-0044a94c11de',
+            interactionData: {
+              routing: {
+                targetType: 'QUEUE',
+                targetAddress: 'SalesAndSupport',
+                priority: 2
               }
             }
           }
         }
-      };
-      let customPlugin;
+      }
+    };
+    let customPlugin;
 
-      window.setupWidgetListeners = function() {
-        customPlugin = CXBus.registerPlugin('Custom');
+    window.setupWidgetListeners = function() {
+      customPlugin = CXBus.registerPlugin('Custom');
 
-        customPlugin.subscribe('WebChatService.started', function (e) {
-          console.log('Chat started', e);
-        });
-
-        customPlugin.subscribe('WebChatService.ended', function (e) {
-          console.log('Chat ended', e);
-        });
-
-        // I orignally put the updateUserData() method here, however this area is more for setup of the widgets; so I opted to
-        // place the updateUserData() method down below when we track all states of the webchat. [Lines 93 - 97]
-        // As well, a MCID is only declared after we start tracking when the Adobe 's' varibale is intialised in our browsers window
-        // thus making me thinkto put it down below rather than here.
-      };
-    </script>
-
-    <script src="https://apps.mypurecloud.com/widgets/9.0/cxbus.min.js" onload="javascript:CXBus.configure({debug:false,pluginsPath:'https://apps.mypurecloud.com/widgets/9.0/plugins/'}); CXBus.loadPlugin('widgets-core'); window.setupWidgetListeners();"></script>
-
-    <script>
-      (function(a,t,c,l,o,u,d){a['_genesysJourneySdk']=o;a[o]=a[o]||function(){
-      (a[o].q=a[o].q||[]).push(arguments)},a[o].l=1*new Date();u=t.createElement(c),
-      d=t.getElementsByTagName(c)[0];u.async=1;u.src=l;u.charset='utf-8';d.parentNode.insertBefore(u,d)
-      })(window, document, 'script', 'https://apps.inintca.com/journey/sdk/js/web/v1/ac.js', 'ac');
-      ac('init', '3d943ccc-9000-47c2-82e3-0044a94c11de', { environment: 'test' });
-      ac('pageview');
-
-      ac('on', 'webchat:all', (evt) => {
-        _genesys.widgets.bus.command('WebChatService.getSessionData').then((data) => {
-          console.log('session data:', { data });
-          console.log('webchat event:', { evt });
-          if (window.s) {
-            if (data.conversationId) {
-              evt.conversationId = data.conversationId;
-              s.transactionId = data.conversationId; // conversationId not available before chat is actually started
-              s.eVar11 = data.conversationId;
-            }
-
-            const webActionEventCounter = 'event20';
-
-            s.events = webActionEventCounter;
-
-            // updateUserData with MCID
-            // method found via: https://all.docs.genesys.com/WID/Current/SDK/WebChatService-combined#updateUserData
-            customPlugin.command('WebChatService.updateUserData', { window._genesys.widgets.webchat.userData.mcid: s.marketingCloudVisitorID }).done(function(e) {
-              console.log('this is how we do it');
-            }).fail(function(e) {
-              console.log('actually, this is not how we do it');
-            });
-
-            for (const prop in evt) {
-              s.contextData[prop] = evt[prop];
-            }
-
-            s.t(); // this is pageview call so if org has this call set up to happen for every page in Launch, then this will increment pageview again for same page. use s.tl() here instead? We don't want to increment page views for every webchat state change
-            console.log(`Marketing Cloud Visitor ID: ${s.marketingCloudVisitorID}`);
-          } else {
-            console.log('no analytics found');
-          }
-        });
+      customPlugin.subscribe('WebChatService.started', function (e) {
+        console.log('Chat started', e);
       });
 
-      /* ac('on', 'contentoffer:all', (evt) => {
+      customPlugin.subscribe('WebChatService.ended', function (e) {
+        console.log('Chat ended', e);
+      });
+
+      // I orignally put the updateUserData() method here, however this area is more for setup of the widgets; so I opted to
+      // place the updateUserData() method down below when we track all states of the webchat. [Lines 93 - 97]
+      // As well, a MCID is only declared after we start tracking when the Adobe 's' varibale is intialised in our browsers window
+      // thus making me thinkto put it down below rather than here.
+    };
+  </script>
+
+  <script src="https://apps.mypurecloud.com/widgets/9.0/cxbus.min.js" onload="javascript:CXBus.configure({debug:false,pluginsPath:'https://apps.mypurecloud.com/widgets/9.0/plugins/'}); CXBus.loadPlugin('widgets-core'); window.setupWidgetListeners();"></script>
+
+  <script>
+    (function(a,t,c,l,o,u,d){a['_genesysJourneySdk']=o;a[o]=a[o]||function(){
+    (a[o].q=a[o].q||[]).push(arguments)},a[o].l=1*new Date();u=t.createElement(c),
+    d=t.getElementsByTagName(c)[0];u.async=1;u.src=l;u.charset='utf-8';d.parentNode.insertBefore(u,d)
+    })(window, document, 'script', 'https://apps.inintca.com/journey/sdk/js/web/v1/ac.js', 'ac');
+    ac('init', '3d943ccc-9000-47c2-82e3-0044a94c11de', { environment: 'test' });
+    ac('pageview');
+
+    ac('on', 'webchat:all', (evt) => {
+      _genesys.widgets.bus.command('WebChatService.getSessionData').then((data) => {
+        console.log('session data:', { data });
+        console.log('webchat event:', { evt });
         if (window.s) {
-          s.eVar9='contentoffer';
-          s.eVar10=`${evt.actionState}`;
-          // s.eVarX = "D=mid"; ?
-          s.t();
-          console.log(`Marketing cloud visitor id: ${s.marketingCloudVisitorID}`);
+          if (data.conversationId) {
+            evt.conversationId = data.conversationId;
+            s.transactionId = data.conversationId; // conversationId not available before chat is actually started
+            s.eVar11 = data.conversationId;
+          }
+
+          const webActionEventCounter = 'event20';
+
+          s.events = webActionEventCounter;
+
+          // updateUserData with MCID
+          // method found via: https://all.docs.genesys.com/WID/Current/SDK/WebChatService-combined#updateUserData
+          customPlugin.command('WebChatService.updateUserData', { window._genesys.widgets.webchat.userData.mcid: s.marketingCloudVisitorID }).done(function(e) {
+            console.log('this is how we do it');
+          }).fail(function(e) {
+            console.log('actually, this is not how we do it');
+          });
+
+          for (const prop in evt) {
+            s.contextData[prop] = evt[prop];
+          }
+
+          s.t(); // this is pageview call so if org has this call set up to happen for every page in Launch, then this will increment pageview again for same page. use s.tl() here instead? We don't want to increment page views for every webchat state change
+          console.log(`Marketing Cloud Visitor ID: ${s.marketingCloudVisitorID}`);
         } else {
-          console.log('no analytics found')
+          console.log('no analytics found');
         }
-      }); */
-    </script>
+      });
+    });
+
+    /* ac('on', 'contentoffer:all', (evt) => {
+      if (window.s) {
+        s.eVar9='contentoffer';
+        s.eVar10=`${evt.actionState}`;
+        // s.eVarX = "D=mid"; ?
+        s.t();
+        console.log(`Marketing cloud visitor id: ${s.marketingCloudVisitorID}`);
+      } else {
+        console.log('no analytics found')
+      }
+    }); */
+  </script>
   {% set css %}
     {% include "assets/css/inline.css" %}
   {% endset %}
