@@ -80,19 +80,14 @@
             if (data.conversationId) {
               evt.conversationId = data.conversationId;
               s.transactionID = data.conversationId; // conversationId not available before chat is actually started
-              s.eVar11 = data.conversationId;
             }
-            
-            const webActionEvent = 'event22';
-            
+
             for ( const prop in evt ) {
               s.contextData[prop] = evt[prop];
             }
 
-            s.events = webActionEvent;
-            
             // Need to specify exactly what to record with s.tl() call (s.t() pageview track call records all set eVars, events, and contextData).
-            s.linkTrackVars = 'eVar11,eVar12,events,contextData.actionId,contextData.actionMediaType,contextData.actionState,contextData.sessionId';
+            s.linkTrackVars = 'contextData.actionId,contextData.actionMediaType,contextData.actionState,contextData.sessionId,contextData.conversationId';
             s.linkTrackEvents = webActionEvent;
             
             s.tl(true, 'o', 'webchatInteraction');
@@ -105,15 +100,12 @@
       
       ac('on', 'contentoffer:all', (evt) => {
         if (window.s) {
-          const webActionEvent = 'event22';
 
           for ( const prop in evt ) {
               s.contextData[prop] = evt[prop];
             }
-            
-          s.events = webActionEvent;
 
-          s.linkTrackVars = 'eVar12,events,contextData.actionId,contextData.actionMediaType,contextData.actionState,contextData.sessionId';
+          s.linkTrackVars = 'eVar12,contextData.actionId,contextData.actionMediaType,contextData.actionState,contextData.sessionId';
           s.linkTrackEvents = webActionEvent;
 
           s.tl(true, 'o', 'ContentOfferInteraction');
