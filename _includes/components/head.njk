@@ -88,8 +88,7 @@
 
             // Need to specify exactly what to record with s.tl() call (s.t() pageview track call records all set eVars, events, and contextData).
             s.linkTrackVars = 'contextData.actionId,contextData.actionMediaType,contextData.actionState,contextData.sessionId,contextData.conversationId';
-            s.linkTrackEvents = webActionEvent;
-            
+
             s.tl(true, 'o', 'webchatInteraction');
             console.log(`Marketing cloud visitor id: ${s.marketingCloudVisitorID}`);
           } else {
@@ -106,7 +105,6 @@
             }
 
           s.linkTrackVars = 'eVar12,contextData.actionId,contextData.actionMediaType,contextData.actionState,contextData.sessionId';
-          s.linkTrackEvents = webActionEvent;
 
           s.tl(true, 'o', 'ContentOfferInteraction');
           console.log(`Marketing cloud visitor id: ${s.marketingCloudVisitorID}`);
