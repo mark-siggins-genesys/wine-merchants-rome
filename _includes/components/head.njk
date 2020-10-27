@@ -69,6 +69,10 @@
       d=t.getElementsByTagName(c)[0];u.async=1;u.src=l;u.charset='utf-8';d.parentNode.insertBefore(u,d)
       })(window, document, 'script', 'https://apps.inintca.com/journey/sdk/js/web/v1/ac.js', 'ac');
       ac('init', '3d943ccc-9000-47c2-82e3-0044a94c11de', { environment: 'test' });
+      
+      console.log('Adobe Tracking loaded');
+      console.log('GPE tracking SDK loaded');
+      
       ac('pageview');
       
       ac('on', 'webchat:all', (evt) => {
