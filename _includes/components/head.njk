@@ -79,12 +79,13 @@
           if (window.s) {
             if (data.conversationId) {
               evt.conversationId = data.conversationId;
-              s.transactionID = data.conversationId; // conversationId not available before chat is actually started
             }
 
             for ( const prop in evt ) {
               s.contextData[prop] = evt[prop];
             }
+            
+            s.transactionID = evt.sessionId;
 
             // Need to specify exactly what to record with s.tl() call (s.t() pageview track call records all set eVars, events, and contextData).
             s.linkTrackVars = 'contextData.actionId,contextData.actionMediaType,contextData.actionState,contextData.sessionId,contextData.conversationId';
@@ -101,8 +102,10 @@
         if (window.s) {
 
           for ( const prop in evt ) {
-              s.contextData[prop] = evt[prop];
-            }
+            s.contextData[prop] = evt[prop];
+          }
+            
+          s.transactionID = evt.sessionId;
 
           s.linkTrackVars = 'eVar12,contextData.actionId,contextData.actionMediaType,contextData.actionState,contextData.sessionId';
 
