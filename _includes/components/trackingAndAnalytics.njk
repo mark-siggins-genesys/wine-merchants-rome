@@ -57,8 +57,9 @@ const digitalData = {
   }; #}
 </script>
 
-<script src="https://apps.mypurecloud.com/widgets/9.0/cxbus.min.js" onload="javascript:CXBus.configure({debug:false,pluginsPath:'https://apps.mypurecloud.com/widgets/9.0/plugins/'}); CXBus.loadPlugin('widgets-core'); window.setupWidgetListeners();"></script>
+<script src="https://apps.mypurecloud.com/widgets/9.0/cxbus.min.js" onload="javascript:CXBus.configure({debug:false,pluginsPath:'https://apps.mypurecloud.com/widgets/9.0/plugins/'}); CXBus.loadPlugin('widgets-core');"></script>
 
+{# <script>window.setupWidgetListeners();</script> #}
 
 <script>
   const sdkTimeMachine = 'GPE-7995_sdk-adobe-analytics-track-module/';
@@ -71,7 +72,7 @@ const digitalData = {
 
   {# Load SDK analytics module #}
   const config = {
-    { adobeTrackingObject: s }
+    adobeTrackingObject: s
   };
 
   ac('load', 'autotrackAdobeAnalytics', config} )
