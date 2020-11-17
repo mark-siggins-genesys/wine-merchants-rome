@@ -42,7 +42,7 @@ const digitalData = {
       }
     }
   };
-  {# let customPlugin;
+  /* customPlugin;
 
   window.setupWidgetListeners = function() {
       customPlugin = CXBus.registerPlugin('Custom');
@@ -54,12 +54,12 @@ const digitalData = {
     customPlugin.subscribe('WebChatService.ended', function (e) {
       console.log('Chat ended', e);
     });
-  }; #}
+  }; */
 </script>
 
 <script src="https://apps.mypurecloud.com/widgets/9.0/cxbus.min.js" onload="javascript:CXBus.configure({debug:false,pluginsPath:'https://apps.mypurecloud.com/widgets/9.0/plugins/'}); CXBus.loadPlugin('widgets-core');"></script>
 
-{# <script>window.setupWidgetListeners();</script> #}
+<!--  <script>window.setupWidgetListeners();</script> -->
 
 <script>
   const sdkTimeMachine = 'GPE-7995_sdk-adobe-analytics-track-module/';
@@ -68,64 +68,34 @@ const digitalData = {
   (a[o].q=a[o].q||[]).push(arguments)},a[o].l=1*new Date();u=t.createElement(c),
   d=t.getElementsByTagName(c)[0];u.async=1;u.src=l;u.charset='utf-8';d.parentNode.insertBefore(u,d)
   })(window, document, 'script', `https://apps.inintca.com/journey/sdk/${sdkTimeMachine}js/web/v1/ac.js`, 'ac');
+
   ac('init', '3d943ccc-9000-47c2-82e3-0044a94c11de', { environment: 'test' });
-
-  {# Load SDK analytics module #}
-  const config = {
-    adobeTrackingObject: s
-  };
-
-  ac('load', 'autotrackAdobeAnalytics', config} )
-
+  
   ac('pageview');
 
-
-
-  
-  {# POC: commented out as loading sdk module #}
-  
-  {# ac('on', 'webchat:all', (evt) => {
-    _genesys.widgets.bus.command('WebChatService.getSessionData').then((data) => {
-      console.log('session data:', {data});
-      console.log('webchat event:', {evt});
-
-      if (window.s) {
-        if (data.conversationId) {
-          evt.conversationId = data.conversationId;
-        }
-
-        for ( const prop in evt ) {
-          s.contextData[prop] = evt[prop];
-        }
-        
-        s.transactionID = evt.sessionId;
-
-        // Need to specify exactly what to record with s.tl() call (s.t() pageview track call records all set eVars, events, and contextData).
-        s.linkTrackVars = 'contextData.actionId,contextData.actionMediaType,contextData.actionState,contextData.sessionId,contextData.conversationId';
-
-        s.tl(true, 'o', 'webchatInteraction');
-        console.log(`Marketing cloud visitor id: ${s.marketingCloudVisitorID}`);
-      } else {
-        console.log('no analytics found')
-      }
-    });
-  });
-  
-  ac('on', 'contentoffer:all', (evt) => {
-    if (window.s) {
-
-      for ( const prop in evt ) {
-        s.contextData[prop] = evt[prop];
-      }
-        
-      s.transactionID = evt.sessionId;
-
-      s.linkTrackVars = 'eVar12,contextData.actionId,contextData.actionMediaType,contextData.actionState,contextData.sessionId';
-
-      s.tl(true, 'o', 'ContentOfferInteraction');
-      console.log(`Marketing cloud visitor id: ${s.marketingCloudVisitorID}`);
-    } else {
-      console.log('no analytics found')
+  // Load SDK analytics module
+  if (window.s) {
+    const config = {  
+      adobeTrackingObject: s
     }
-  }); #}
+
+    ac('load', 'autotrackAdobeAnalytics', config );
+  } else {
+    console.log(" 's' (adobe tracking object) is not defined");
+    console.log("load sdk analytics module after 's' is set");
+    Object.defineProperty(window, 's', {
+      configurable: true,
+      enumerable: true,
+      get: function() {
+        return this._s;
+      },
+      set: function(val) {
+        this._s = val;
+        const config = {  
+          adobeTrackingObject: s
+        }
+        ac('load', 'autotrackAdobeAnalytics', config );
+      }
+    })
+  }
 </script>
