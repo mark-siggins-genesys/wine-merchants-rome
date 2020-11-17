@@ -1,0 +1,130 @@
+<!-- Data Layer to enable rich data collection and targeting -->
+<script>
+const digitalData = {
+    "page": {
+        "pageInfo" : {
+            "pageName": document.title
+            }
+        }
+};
+</script>
+
+<!-- Data Layer -->
+<!-- jQuery -->
+<!-- prehiding snippet for Adobe Target with asynchronous Launch deployment -->
+<script>
+  (function(g,b,d,f){(function(a,c,d){if(a){var e=b.createElement("style");e.id=c;e.innerHTML=d;a.appendChild(e)}})(b.getElementsByTagName("head")[0],"at-body-style",d);setTimeout(function(){var a=b.getElementsByTagName("head")[0];if(a){var c=b.getElementById("at-body-style");c&&a.removeChild(c)}},f)})(window,document,"body {opacity: 0 !important}",3E3);
+</script>
+
+<!-- prehiding snippet for Adobe Target with asynchronous Launch deployment -->
+<!-- Launch Header Embed Code: PROD -->
+<script src="//assets.adobedtm.com/645cdc4519e1/f7ca60ac2e35/launch-aa24954aa620.min.js" async></script>
+
+<!-- Launch Header Embed Code -->
+<!-- Grab the widgets we need -->
+<script type="text/javascript">
+  window._genesys = {
+    widgets: {
+      webchat: {
+        transport: {
+          type: 'purecloud-v2-sockets',
+          dataURL: 'https://api.inintca.com',
+          deploymentKey : '5d0f39f0-5f81-4051-be70-837bc6ff8636',
+          orgGuid : '3d943ccc-9000-47c2-82e3-0044a94c11de',
+          interactionData: {
+            routing: {
+              targetType: 'QUEUE',
+              targetAddress: 'SalesAndSupport',
+              priority: 2
+            }
+          }
+        }
+      }
+    }
+  };
+  {# let customPlugin;
+
+  window.setupWidgetListeners = function() {
+      customPlugin = CXBus.registerPlugin('Custom');
+
+    customPlugin.subscribe('WebChatService.started', function (e) {
+      console.log('Chat started', e);
+    });
+
+    customPlugin.subscribe('WebChatService.ended', function (e) {
+      console.log('Chat ended', e);
+    });
+  }; #}
+</script>
+
+<script src="https://apps.mypurecloud.com/widgets/9.0/cxbus.min.js" onload="javascript:CXBus.configure({debug:false,pluginsPath:'https://apps.mypurecloud.com/widgets/9.0/plugins/'}); CXBus.loadPlugin('widgets-core'); window.setupWidgetListeners();"></script>
+
+
+<script>
+  const sdkTimeMachine = 'GPE-7995_sdk-adobe-analytics-track-module/';
+
+  (function(a,t,c,l,o,u,d){a['_genesysJourneySdk']=o;a[o]=a[o]||function(){
+  (a[o].q=a[o].q||[]).push(arguments)},a[o].l=1*new Date();u=t.createElement(c),
+  d=t.getElementsByTagName(c)[0];u.async=1;u.src=l;u.charset='utf-8';d.parentNode.insertBefore(u,d)
+  })(window, document, 'script', `https://apps.inintca.com/journey/sdk/${sdkTimeMachine}js/web/v1/ac.js`, 'ac');
+  ac('init', '3d943ccc-9000-47c2-82e3-0044a94c11de', { environment: 'test' });
+
+  {# Load SDK analytics module #}
+  const config = {
+    { adobeTrackingObject: s }
+  };
+
+  ac('load', 'autotrackAdobeAnalytics', config} )
+
+  ac('pageview');
+
+
+
+  
+  {# POC: commented out as loading sdk module #}
+  
+  {# ac('on', 'webchat:all', (evt) => {
+    _genesys.widgets.bus.command('WebChatService.getSessionData').then((data) => {
+      console.log('session data:', {data});
+      console.log('webchat event:', {evt});
+
+      if (window.s) {
+        if (data.conversationId) {
+          evt.conversationId = data.conversationId;
+        }
+
+        for ( const prop in evt ) {
+          s.contextData[prop] = evt[prop];
+        }
+        
+        s.transactionID = evt.sessionId;
+
+        // Need to specify exactly what to record with s.tl() call (s.t() pageview track call records all set eVars, events, and contextData).
+        s.linkTrackVars = 'contextData.actionId,contextData.actionMediaType,contextData.actionState,contextData.sessionId,contextData.conversationId';
+
+        s.tl(true, 'o', 'webchatInteraction');
+        console.log(`Marketing cloud visitor id: ${s.marketingCloudVisitorID}`);
+      } else {
+        console.log('no analytics found')
+      }
+    });
+  });
+  
+  ac('on', 'contentoffer:all', (evt) => {
+    if (window.s) {
+
+      for ( const prop in evt ) {
+        s.contextData[prop] = evt[prop];
+      }
+        
+      s.transactionID = evt.sessionId;
+
+      s.linkTrackVars = 'eVar12,contextData.actionId,contextData.actionMediaType,contextData.actionState,contextData.sessionId';
+
+      s.tl(true, 'o', 'ContentOfferInteraction');
+      console.log(`Marketing cloud visitor id: ${s.marketingCloudVisitorID}`);
+    } else {
+      console.log('no analytics found')
+    }
+  }); #}
+</script>
