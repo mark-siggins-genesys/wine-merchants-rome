@@ -73,29 +73,11 @@ const digitalData = {
   
   ac('pageview');
 
-  // Load SDK analytics module
-  if (window.s) {
-    const config = {  
-      adobeTrackingObject: s
-    }
-
-    ac('load', 'autotrackAdobeAnalytics', config );
-  } else {
-    console.log(" 's' (adobe tracking object) is not defined");
-    console.log("load sdk analytics module after 's' is set");
-    Object.defineProperty(window, 's', {
-      configurable: true,
-      enumerable: true,
-      get: function() {
-        return this._s;
-      },
-      set: function(val) {
-        this._s = val;
-        const config = {  
-          adobeTrackingObject: s
-        }
-        ac('load', 'autotrackAdobeAnalytics', config );
-      }
-    })
+  const config = {
+    // if not specified, module should fallback to what adobe sets as default - window.s
+    // adobeAnalyticsObjectName: 'customAdobeObjectName'
   }
+
+  ac('load', 'autotrackAdobeAnalytics', config );
+
 </script>
